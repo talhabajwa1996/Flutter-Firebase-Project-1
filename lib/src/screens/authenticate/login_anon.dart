@@ -19,9 +19,9 @@ class LoginAnonPageState extends State<LoginAnonPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              loginWidget(),
+              _loginWidget(),
               SizedBox(height: 20),
-              loginButton(),
+              _loginButton(),
             ],
           ),
         ),
@@ -29,7 +29,7 @@ class LoginAnonPageState extends State<LoginAnonPage> {
     );
   }
 
-  Widget loginWidget() {
+  Widget _loginWidget() {
     return Container(
       margin: EdgeInsetsDirectional.only(top: 20.0),
       child: Column(
@@ -55,7 +55,7 @@ class LoginAnonPageState extends State<LoginAnonPage> {
     );
   }
 
-  Widget loginButton() {
+  Widget _loginButton() {
     return RaisedButton(
       child: Text('Login Anonymously'),
       onPressed: () async {

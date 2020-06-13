@@ -1,5 +1,4 @@
 import 'package:Firebase_Project_1/src/screens/authenticate/login.dart';
-import 'package:Firebase_Project_1/src/screens/authenticate/login_anon.dart';
 import 'package:Firebase_Project_1/src/screens/authenticate/register.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,7 @@
+import 'package:Firebase_Project_1/src/shared/loading.dart';
 import 'package:flutter/material.dart';
 import '../../services/auth.dart';
+import '../../shared/constants.dart';
 
 class LoginPage extends StatefulWidget {
   final Function toggleView;
@@ -14,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
 
   AuthService _auth = AuthService();
+
+  bool _loading = false;
 
   String email = '';
   String password = '';
@@ -45,15 +49,15 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                loginWidget(),
+                _loginWidget(),
                 SizedBox(height: 20),
                 _email(),
                 SizedBox(height: 20),
                 _password(),
                 SizedBox(height: 20),
-                loginButton(),
+                _loginButton(),
                 SizedBox(height: 20),
-                errorText(),
+                _loadingCircle(),
               ],
             ),
           ),
@@ -62,18 +66,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget loginWidget() {
+  Widget _loginWidget() {
     return Container(
       margin: EdgeInsetsDirectional.only(top: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Image(
-          //   image: AssetImage('assets/Icons/login.png'),
-          //   height: 100,
-          //   width: 100,
-          // ),
           SizedBox(height: 8.0),
           Text(
             'Login',
@@ -90,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _email() {
     return TextFormField(
+      decoration: inputFieldsDecoration.copyWith(hintText: 'Email'),
       validator: (String value) {
         if (value.isEmpty ||
             !RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
@@ -108,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _password() {
     return TextFormField(
+      decoration: inputFieldsDecoration.copyWith(hintText: 'Password'),
       keyboardType: TextInputType.emailAddress,
       obscureText: true,
       onChanged: (value) {
@@ -123,22 +124,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget loginButton() {
+  Widget _loginButton() {
     return RaisedButton(
       child: Text('Login'),
       onPressed: () async {
         if (_formKey.currentState.validate()) {
+          setState(() => _loading = true);
           dynamic result =
               await _auth.signInWithEmailAndPassword(email, password);
           if (result == null) {
-            setState(() => error = 'Invalid Credentials');
+            setState(
+              () {
+                _loading = false;
+                error = 'Invalid Credentials';
+              },
+            );
           }
         }
       },
     );
   }
 
-  Widget errorText() {
+  Widget _loadingCircle() {
+    return _loading ? Loading() : _errorText();
+  }
+
+  Widget _errorText() {
     return Text(
       error,
       style: TextStyle(
