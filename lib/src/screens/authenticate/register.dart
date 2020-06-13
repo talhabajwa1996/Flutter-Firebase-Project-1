@@ -13,12 +13,13 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   var _formKey = GlobalKey<FormState>();
 
+  AuthService _auth = AuthService();
+
   String email = '';
   String password = '';
   String error = '';
 
   @override
-  AuthService _auth = AuthService();
 
   build(context) {
     return Scaffold(

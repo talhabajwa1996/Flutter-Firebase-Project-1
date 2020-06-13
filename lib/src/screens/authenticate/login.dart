@@ -13,12 +13,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
 
-  String email = '';
-  String password = '';
-
-  @override
   AuthService _auth = AuthService();
 
+  String email = '';
+  String password = '';
+  String error = '';
+
+  @override
   build(context) {
     return Scaffold(
       appBar: AppBar(
@@ -51,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
                 _password(),
                 SizedBox(height: 20),
                 loginButton(),
+                SizedBox(height: 20),
+                errorText(),
               ],
             ),
           ),
@@ -124,8 +127,24 @@ class _LoginPageState extends State<LoginPage> {
     return RaisedButton(
       child: Text('Login'),
       onPressed: () async {
-        _formKey.currentState.validate();
+        if (_formKey.currentState.validate()) {
+          dynamic result =
+              await _auth.signInWithEmailAndPassword(email, password);
+          if (result == null) {
+            setState(() => error = 'Invalid Credentials');
+          }
+        }
       },
+    );
+  }
+
+  Widget errorText() {
+    return Text(
+      error,
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 14.0,
+      ),
     );
   }
 }
