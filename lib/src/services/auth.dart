@@ -1,3 +1,4 @@
+import 'package:Firebase_Project_1/src/services/database.dart';
 import '../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,6 +13,10 @@ class AuthService{
 
 
   //auth change user Stream
+  /* An appropriate value will be emitted by the stream when the user Signs In or Register while a null value will be
+   emitted when the user Signs out. This stream value will be taken by the StreamProvider in the 
+   MyApp class to decide which screen to show (either Login or Home Screen) based on the 
+   authentication status of the user. */
   Stream<User> get user => _auth.onAuthStateChanged
   //.map((FirebaseUser user) => _userFromFirebaseUser(user))       //Line 15 and 16 are equivalent
   .map(_userFromFirebaseUser);
@@ -49,6 +54,7 @@ class AuthService{
     try{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+      await DatabaseService(uid: user.uid).updateUserData('0', 'Huzefa', 100);
       return _userFromFirebaseUser(user);
     }
     catch(e){

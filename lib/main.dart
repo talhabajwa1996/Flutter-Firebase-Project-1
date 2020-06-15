@@ -1,5 +1,5 @@
 import 'package:Firebase_Project_1/src/models/user.dart';
-import 'package:Firebase_Project_1/src/screens/wrapper.dart';
+import 'package:Firebase_Project_1/src/screens/wrapper/wrapper.dart';
 import 'package:Firebase_Project_1/src/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
