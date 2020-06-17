@@ -29,7 +29,10 @@ class DatabaseService {
 
   // brew list from snapshot
   /*
-    Line 34-48 is used instead line 27 because we want a list of brews instead of a single brew snapchot  
+    From line 38 to line 48, a List containing name, strength and sugar will be recorded
+    as a new user comes in, converted into a stream(in get brews section) of brews and
+    will be taken as a value by the StreamProvider in the home Page which will then be accessed by the Provider
+    in the brew_list page to provider the name, strength and sugar to be used as per demand.
   */
   List<Brew> _brewListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map(

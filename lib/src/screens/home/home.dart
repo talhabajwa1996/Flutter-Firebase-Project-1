@@ -26,10 +26,18 @@ class HomePageState extends State<HomePage> {
             backgroundColor: Colors.red[200],
             actions: <Widget>[
               _signOutButtonInAppBar(),
-              SettingsPane(),
+              _showSettingsPanel(),
             ],
           ),
-          body: BrewList(),
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/Background/coffee_bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: BrewList(),
+          ),
         ),
       ),
     );
@@ -40,6 +48,22 @@ class HomePageState extends State<HomePage> {
       onPressed: () async => await _auth.signOut(),
       icon: Icon(Icons.person),
       label: Text('Logout'),
+    );
+  }
+
+  Widget _showSettingsPanel() {
+    return FlatButton.icon(
+      icon: Icon(Icons.settings),
+      label: Text('Settings'),
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => Container(
+            margin: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+            child: SettingsPane(),
+          ),
+        );
+      },
     );
   }
 }

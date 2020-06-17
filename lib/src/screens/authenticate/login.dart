@@ -58,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
                 _loginButton(),
                 SizedBox(height: 20),
                 _loadingCircle(),
+                SizedBox(height: 20),
+                _loginWithGmailButton(),
               ],
             ),
           ),
@@ -144,6 +146,26 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
+
+   Widget _loginWithGmailButton() {
+    return RaisedButton(
+      child: Text('Login using Gmail'),
+      onPressed: () async {
+          setState(() => _loading = true);
+          dynamic result =
+              await _auth.signInWithGmail();
+          if (result == null) {
+            setState(
+              () {
+                _loading = false;
+                error = 'Invalid Credentials';
+              },
+            );
+          }
+      },
+    );
+  }
+
 
   Widget _loadingCircle() {
     return _loading ? Loading() : _errorText();

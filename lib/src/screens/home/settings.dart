@@ -27,15 +27,7 @@ class _SettingsPaneState extends State<SettingsPane> {
       builder: (context, snapshot) {
         if (snapshot.hasData){
           UserData userData = snapshot.data;
-          return FlatButton.icon(
-          icon: Icon(Icons.settings),
-          label: Text('Settings'),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => Container(
-                margin: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
-                child: Form(
+                return Form(
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
@@ -50,12 +42,8 @@ class _SettingsPaneState extends State<SettingsPane> {
                       SizedBox(height: 8.0),
                       _submitButton(user.uid, userData.name, userData.sugars, userData.strength),
                     ],
-                  ),
-                ),
               ),
-            );
-          },
-        );
+              );
         }
         else{
           return Loading();
@@ -106,7 +94,7 @@ class _SettingsPaneState extends State<SettingsPane> {
       min: 100.0,
       max: 900.0,
       divisions: 8,
-      onChanged: (value) => setState(() => _currentStrength = value.round()),
+      onChanged: (val) => setState(() => _currentStrength = val.round()),
     );
   }
 
